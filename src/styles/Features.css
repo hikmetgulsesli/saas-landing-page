@@ -1,5 +1,26 @@
+:root {
+  /* SaaS/Productivity palette - Blue based, no purple */
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --secondary: #0ea5e9;
+  --accent: #f59e0b;
+  --bg-dark: #0f172a;
+  --bg-card: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --border-color: #334155;
+  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+
+  /* Animation timing */
+  --transition-fast: 150ms;
+  --transition-normal: 200ms;
+  --transition-slow: 300ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 .features {
   background: var(--bg-dark);
+  padding: 6rem 2rem;
 }
 
 .section-header {
@@ -9,26 +30,69 @@
 
 .section-header h2 {
   margin-bottom: 1rem;
+  color: var(--text-primary);
 }
 
+.section-header p {
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+}
+
+/* Varied grid layout - asymmetrical */
 .features-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .feature-card {
   background: var(--bg-card);
   padding: 2rem;
   border-radius: 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  transition: transform var(--transition-normal) var(--ease-out),
+              box-shadow var(--transition-normal) var(--ease-out),
+              border-color var(--transition-fast) var(--ease-out);
+  opacity: 0;
+  transform: translateY(20px);
+  cursor: default;
 }
 
+/* Staggered entrance animation */
+.feature-card--visible {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--transition-slow) var(--ease-out),
+              transform var(--transition-slow) var(--ease-out),
+              box-shadow var(--transition-normal) var(--ease-out),
+              border-color var(--transition-fast) var(--ease-out);
+}
+
+/* Hover effects - lift and shadow */
 .feature-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(99, 102, 241, 0.3);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  transform: translateY(-6px);
+  border-color: rgba(37, 99, 235, 0.4);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(37, 99, 235, 0.1);
+}
+
+/* Varied grid spans for visual interest */
+.feature-card--small {
+  grid-column: span 4;
+}
+
+.feature-card--large {
+  grid-column: span 6;
+}
+
+/* Position large cards asymmetrically */
+.feature-card--large:first-of-type {
+  grid-column: 1 / 7;
+}
+
+.feature-card--large:last-of-type {
+  grid-column: 7 / 13;
 }
 
 .feature-icon {
@@ -39,16 +103,80 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.5rem;
   margin-bottom: 1.5rem;
+}
+
+.feature-icon__svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: white;
+  stroke-width: 2;
 }
 
 .feature-card h3 {
   font-size: 1.25rem;
   margin-bottom: 0.75rem;
+  color: var(--text-primary);
+  font-weight: 600;
 }
 
 .feature-card p {
   font-size: 1rem;
   color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* Responsive layout - stack on mobile */
+@media (max-width: 1024px) {
+  .feature-card--small,
+  .feature-card--large,
+  .feature-card--large:first-of-type,
+  .feature-card--large:last-of-type {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 768px) {
+  .features {
+    padding: 4rem 1.5rem;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .feature-card--small,
+  .feature-card--large,
+  .feature-card--large:first-of-type,
+  .feature-card--large:last-of-type {
+    grid-column: span 1;
+  }
+
+  .feature-card {
+    padding: 1.5rem;
+  }
+
+  .section-header h2 {
+    font-size: 1.75rem;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .feature-card {
+    opacity: 1;
+    transform: none;
+    transition: box-shadow var(--transition-fast) var(--ease-out),
+                border-color var(--transition-fast) var(--ease-out);
+  }
+
+  .feature-card--visible {
+    transition: box-shadow var(--transition-fast) var(--ease-out),
+                border-color var(--transition-fast) var(--ease-out);
+  }
+
+  .feature-card:hover {
+    transform: none;
+  }
 }
