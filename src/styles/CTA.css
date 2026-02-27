@@ -1,0 +1,70 @@
+.cta {
+  background: var(--bg-dark);
+}
+
+.cta-card {
+  background: var(--gradient);
+  padding: 4rem;
+  border-radius: 1.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.cta-card h2 {
+  color: white;
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.cta-card p {
+  color: rgba(255, 255, 255, 0.9);
+  max-width: 500px;
+  margin: 0 auto 2rem;
+  position: relative;
+}
+
+.cta-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  position: relative;
+}
+
+.cta-actions .btn-primary {
+  background: white;
+  color: var(--primary-dark);
+}
+
+.cta-actions .btn-primary:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+}
+
+.cta-actions .btn-secondary {
+  border-color: white;
+  color: white;
+}
+
+.cta-actions .btn-secondary:hover {
+  background: white;
+  color: var(--primary-dark);
+}
+
+@media (max-width: 768px) {
+  .cta-card {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .cta-actions {
+    flex-direction: column;
+  }
+}
