@@ -8,6 +8,20 @@ describe('Design Tokens', () => {
     rootStyles = getComputedStyle(document.documentElement)
   })
 
+  // Helper function to check CSS custom properties
+  const checkCssVariables = (
+    variables: string[],
+    pattern?: RegExp
+  ) => {
+    for (const variable of variables) {
+      const value = rootStyles?.getPropertyValue(variable).trim()
+      expect(value, `${variable} should have a value`).toBeTruthy()
+      if (pattern) {
+        expect(value, `${variable} should match ${pattern}`).toMatch(pattern)
+      }
+    }
+  }
+
   describe('Brand Colors', () => {
     it('should define brand color palette', () => {
       const brandColors = [
@@ -23,21 +37,13 @@ describe('Design Tokens', () => {
         '--color-brand-900',
       ]
 
-      for (const color of brandColors) {
-        const value = rootStyles?.getPropertyValue(color)
-        expect(value).toBeTruthy()
-        expect(value).toMatch(/^#[0-9a-fA-F]{6}$/)
-      }
+      checkCssVariables(brandColors, /^#[0-9a-fA-F]{6}$/)
     })
 
     it('should define accent colors', () => {
       const accentColors = ['--color-accent', '--color-accent-light', '--color-accent-dark']
       
-      for (const color of accentColors) {
-        const value = rootStyles?.getPropertyValue(color)
-        expect(value).toBeTruthy()
-        expect(value).toMatch(/^#[0-9a-fA-F]{6}$/)
-      }
+      checkCssVariables(accentColors, /^#[0-9a-fA-F]{6}$/)
     })
   })
 
@@ -49,10 +55,7 @@ describe('Design Tokens', () => {
         '--color-surface-tertiary',
       ]
 
-      for (const color of surfaceColors) {
-        const value = rootStyles?.getPropertyValue(color)
-        expect(value).toBeTruthy()
-      }
+      checkCssVariables(surfaceColors)
     })
 
     it('should define text colors', () => {
@@ -62,10 +65,7 @@ describe('Design Tokens', () => {
         '--color-text-muted',
       ]
 
-      for (const color of textColors) {
-        const value = rootStyles?.getPropertyValue(color)
-        expect(value).toBeTruthy()
-      }
+      checkCssVariables(textColors)
     })
 
     it('should define status colors', () => {
@@ -76,11 +76,7 @@ describe('Design Tokens', () => {
         '--color-info',
       ]
 
-      for (const color of statusColors) {
-        const value = rootStyles?.getPropertyValue(color)
-        expect(value).toBeTruthy()
-        expect(value).toMatch(/^#[0-9a-fA-F]{6}$/)
-      }
+      checkCssVariables(statusColors, /^#[0-9a-fA-F]{6}$/)
     })
   })
 
@@ -88,10 +84,7 @@ describe('Design Tokens', () => {
     it('should define font families', () => {
       const fontFamilies = ['--font-sans', '--font-display', '--font-mono']
 
-      for (const font of fontFamilies) {
-        const value = rootStyles?.getPropertyValue(font)
-        expect(value).toBeTruthy()
-      }
+      checkCssVariables(fontFamilies)
     })
 
     it('should define font sizes', () => {
@@ -108,12 +101,7 @@ describe('Design Tokens', () => {
         '--font-size-caption',
       ]
 
-      for (const size of fontSizes) {
-        const value = rootStyles?.getPropertyValue(size)
-        expect(value).toBeTruthy()
-        // Should be a valid CSS length
-        expect(value).toMatch(/^(\d+(\.\d+)?(rem|px|em)|\d+)$/)
-      }
+      checkCssVariables(fontSizes, /^(\d+(\.\d+)?(rem|px|em)|\d+)$/)
     })
 
     it('should define font weights', () => {
@@ -124,10 +112,7 @@ describe('Design Tokens', () => {
         '--font-weight-bold',
       ]
 
-      for (const weight of fontWeights) {
-        const value = rootStyles?.getPropertyValue(weight)
-        expect(value).toBeTruthy()
-      }
+      checkCssVariables(fontWeights)
     })
   })
 
@@ -148,12 +133,7 @@ describe('Design Tokens', () => {
         '--space-5xl',
       ]
 
-      for (const space of spacingVars) {
-        const value = rootStyles?.getPropertyValue(space)
-        expect(value).toBeTruthy()
-        // Should be a valid rem value
-        expect(value).toMatch(/^\d+(\.\d+)?rem$/)
-      }
+      checkCssVariables(spacingVars, /^\d+(\.\d+)?rem$/)
     })
   })
 
@@ -168,10 +148,7 @@ describe('Design Tokens', () => {
         '--radius-full',
       ]
 
-      for (const radius of radiusVars) {
-        const value = rootStyles?.getPropertyValue(radius)
-        expect(value).toBeTruthy()
-      }
+      checkCssVariables(radiusVars)
     })
   })
 
@@ -186,10 +163,7 @@ describe('Design Tokens', () => {
         '--shadow-inner',
       ]
 
-      for (const shadow of shadowVars) {
-        const value = rootStyles?.getPropertyValue(shadow)
-        expect(value).toBeTruthy()
-      }
+      checkCssVariables(shadowVars)
     })
   })
 
@@ -197,21 +171,13 @@ describe('Design Tokens', () => {
     it('should define animation durations', () => {
       const durationVars = ['--duration-fast', '--duration-normal', '--duration-slow']
 
-      for (const duration of durationVars) {
-        const value = rootStyles?.getPropertyValue(duration)
-        expect(value).toBeTruthy()
-        expect(value).toMatch(/^\d+ms$/)
-      }
+      checkCssVariables(durationVars, /^\d+ms$/)
     })
 
     it('should define easing functions', () => {
       const easeVars = ['--ease-out-expo', '--ease-in-out-expo']
 
-      for (const ease of easeVars) {
-        const value = rootStyles?.getPropertyValue(ease)
-        expect(value).toBeTruthy()
-        expect(value).toMatch(/^cubic-bezier/)
-      }
+      checkCssVariables(easeVars, /^cubic-bezier/)
     })
   })
 
@@ -219,10 +185,7 @@ describe('Design Tokens', () => {
     it('should define container max widths', () => {
       const containerVars = ['--container-max', '--container-narrow']
 
-      for (const container of containerVars) {
-        const value = rootStyles?.getPropertyValue(container)
-        expect(value).toBeTruthy()
-      }
+      checkCssVariables(containerVars)
     })
   })
 })
